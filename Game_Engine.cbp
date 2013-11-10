@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Game_Engine" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Game_Engine\;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Game_Engine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="$(#boost.include)" />
+				</Compiler>
+				<Linker>
+					<Add directory="$(#boost.lib)" />
+					<Add directory="C:/Devroot/SDL2-devel-2.0.0-mingw/SDL2-2.0.0/i686-w64-mingw32/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Game_Engine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="$(#boost.include)" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add directory="$(#boost.lib)" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="$(#boost.include)" />
+			<Add directory="C:/Devroot/Game_Engine/src" />
+			<Add directory="C:/Devroot/Game_Engine/include/SDL2" />
+		</Compiler>
+		<Linker>
+			<Add option="-lmingw32 -lSDL2_image -lSDL2main -lSDL2" />
+			<Add library="libboost_chrono-mgw47-mt-1_54" />
+			<Add library="libboost_system-mgw47-mt-1_54" />
+			<Add library="libSDL2_image" />
+			<Add directory="$(#boost.lib)" />
+			<Add directory="C:/Devroot/Game_Engine/lib" />
+		</Linker>
+		<Unit filename="main.cpp">
+			<Option virtualFolder="Game_Engine/" />
+		</Unit>
+		<Unit filename="src/Components/Component.cpp" />
+		<Unit filename="src/Components/Component.h" />
+		<Unit filename="src/Components/SpriteComponent.cpp" />
+		<Unit filename="src/Components/SpriteComponent.h" />
+		<Unit filename="src/GameLoop/GameLoop.cpp" />
+		<Unit filename="src/GameLoop/GameLoop.h" />
+		<Unit filename="src/GameWorld/ComponentManager.cpp" />
+		<Unit filename="src/GameWorld/ComponentManager.h" />
+		<Unit filename="src/GameWorld/EntityManager.cpp" />
+		<Unit filename="src/GameWorld/EntityManager.h" />
+		<Unit filename="src/GameWorld/GameWorld.cpp" />
+		<Unit filename="src/GameWorld/GameWorld.h" />
+		<Unit filename="src/Logger/Logger.cpp" />
+		<Unit filename="src/Logger/Logger.h" />
+		<Unit filename="src/Systems/InputSystem.cpp" />
+		<Unit filename="src/Systems/InputSystem.h" />
+		<Unit filename="src/Systems/RenderSystem.cpp" />
+		<Unit filename="src/Systems/RenderSystem.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
