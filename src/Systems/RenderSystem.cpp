@@ -1,19 +1,15 @@
 #include "RenderSystem.h"
 
-#include "Components/SpriteComponent.h"
-
-#include "GameWorld/ComponentManager.h"
+#include "GameWorld/ComponentStore.h"
 #include "GameWorld/EntityManager.h"
+#include "GameWorld/Components.h"
 
 #include "boost/shared_ptr.hpp"
 
 #include "SDL_image.h"
-#include "SDL.h"
 
 #include <iostream>
 #include <vector>
-
-
 
 
 using namespace boost;
@@ -21,9 +17,9 @@ using namespace boost;
 const int SCREEN_WIDTH  = 640;
 const int SCREEN_HEIGHT = 480;
 
-RenderSystem::RenderSystem(EntityManager& entityManager, ComponentManager& componentManager)
+RenderSystem::RenderSystem(EntityManager& entityManager, ComponentStore& componentStore)
 : m_EntityManager(entityManager)
-, m_ComponentManager(componentManager)
+, m_ComponentStore(componentStore)
 , m_MainWindow()
 , m_MainRenderer()
 {
@@ -73,28 +69,62 @@ SDL_Renderer * RenderSystem::CreateRenderer(SDL_Window * window)
 
 void RenderSystem::Render()
 {
-    shared_ptr < std::vector< shared_ptr<SpriteComponent> > > spriteComponents = m_ComponentManager.GetAllSprites();
-
-    SDL_Texture *playerSprite = NULL;
-
-    shared_ptr<SpriteComponent> spritePtr = spriteComponents->back();
-    std::string spriteFilePath = spritePtr->GetFilePath();
-    if(!spritePtr->GetIsLoaded())
-    {
-        playerSprite = LoadImage(m_MainRenderer,spriteFilePath);
-    }
+    //Get list of entitys,run through them, get position for each and display it
+    shared_ptr < const std::vector < shared_ptr < Sprite > > > spriteComponents = m_ComponentStore.GetAllSprites();
+    shared_ptr < std::vector < shared_ptr < Position > > > positionComponents = m_ComponentStore.GetAllPositions();
+    std::vector< shared_ptr < Sprite > >::const_iterator spriteItr;
 
     SDL_RenderClear(m_MainRenderer);
 
-    int iW, iH;
-    SDL_QueryTexture(playerSprite, NULL, NULL, &iW, &iH);
-    int x = SCREEN_WIDTH / 2 - iW / 2;
-    int y = SCREEN_HEIGHT / 2 - iH / 2;
-    ApplySurface(x, y, playerSprite, m_MainRenderer);
+    for(spriteItr = spriteComponents->begin();spriteItr!=spriteComponents->end();++spriteItr) // O(2^n) algorithm... eh yeah that wont work
+    {
+        shared_ptr<Sprite> spriteComp = (*spriteItr);
+        if(spriteComp)
+        {
+            SDL_Texture * spriteTexture = spriteComp->texture;
+            shared_ptr<Position> spritePosition = m_ComponentStore.GetPositionByEntity(spriteComp->entity);
+            ApplySurface(spritePosition->x,spritePosition->y,spriteTexture,m_MainRenderer);
+        }
+        /*int iW, iH;
+        SDL_QueryTexture(spriteTexture, NULL, NULL, &iW, &iH);
+        int x = SCREEN_WIDTH / 2 - iW / 2;
+        int y = SCREEN_HEIGHT / 2 - iH / 2;
+        ApplySurface(x, y, spriteTexture, m_MainRenderer);*/
+
+    }
 
     SDL_RenderPresent(m_MainRenderer);
 }
 
+void RenderSystem::LoadTextureBatch(shared_ptr < std::vector <Sprite > > vSprites)
+{
+    shared_ptr< const std::vector< shared_ptr< Sprite > > > spriteComponents = m_ComponentStore.GetAllSprites();
+    std::vector< shared_ptr< Sprite > >::const_iterator spriteItr = spriteComponents->begin();
+
+    for(spriteItr = spriteComponents->begin();spriteItr!=spriteComponents->end();++spriteItr)
+    {
+        shared_ptr<Sprite> spriteComp = (*spriteItr);
+        if(spriteComp && !spriteComp->isLoaded) // Probably shouldn't be doing that in the game loop
+        {
+            spriteComp->texture = LoadImage(m_MainRenderer,spriteComp->filePath);
+        }
+    }
+}
+
+void RenderSystem::UnLoadTextureBatch(shared_ptr < std::vector <Sprite > > vSprites)
+{
+ /*   shared_ptr < std::vector< Sprite > > spriteComponents = m_ComponentStore.GetAllSprites();
+    std::vector<Sprite>::iterator spriteItr = spriteComponents->begin();
+
+    for(spriteItr = spriteComponents->begin();spriteItr!=spriteComponents->end();++spriteItr)
+    {
+        Sprite * spriteComp = &(*spriteItr);
+        if(!spriteComp->isLoaded) // Probably shouldn't be doing that in the game loop
+        {
+            spriteComp->texture = LoadImage(m_MainRenderer,spriteComp->filePath);
+        }
+    }*/
+}
 
 SDL_Texture* RenderSystem::LoadImage(SDL_Renderer* renderer, const std::string& file) const
 {

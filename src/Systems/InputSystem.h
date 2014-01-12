@@ -1,14 +1,14 @@
 #ifndef INPUTSYSTEM_H
 #define INPUTSYSTEM_H
 
-#include "GameWorld/ComponentManager.h"
+#include "GameWorld/ComponentStore.h"
 #include "GameWorld/EntityManager.h"
 
 
 class InputSystem
 {
     public:
-        InputSystem(EntityManager& entityManager,ComponentManager& componentManager);
+        InputSystem(EntityManager& entityManager,ComponentStore& componentStore);
         virtual ~InputSystem();
 
         bool ProcessAllUserInput();
@@ -23,7 +23,7 @@ class InputSystem
     private:
     bool m_bExitGame;
     EntityManager m_EntityManager;
-    ComponentManager m_ComponentManager;
+    ComponentStore m_ComponentStore;
 };
 
 #endif // INPUTSYSTEM_H

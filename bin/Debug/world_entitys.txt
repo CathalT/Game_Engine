@@ -1,0 +1,54 @@
+{
+    "entities": [
+        [
+            {
+                "Sprite": [
+                    {
+                        "FilePath": "../Images/lolSprite.jpg"
+                    },
+                    {
+                        "reDraw": false
+                    },
+                    {
+                        "isLoaded": false
+                    }
+                ]
+            },
+            {
+                "Position": [
+                    {
+                        "x": 50
+                    },
+                    {
+                        "y": 50
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "Sprite": [
+                    {
+                        "FilePath": "../Images/red_ball.png"
+                    },
+                    {
+                        "reDraw": false
+                    },
+                    {
+                        "isLoaded": false
+                    }
+                ]
+            },
+            {
+                "Position": [
+                    {
+                        "x": 5
+                    },
+                    {
+                        "y": 5
+                    }
+                ]
+            }
+        ]
+    ]
+}

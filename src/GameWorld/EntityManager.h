@@ -7,15 +7,19 @@ class EntityManager
 {
     public:
         EntityManager();
-        virtual ~EntityManager();
+        ~EntityManager();
         int CreateNewEntity();
-        bool DeleteEntity(const int entityID);
-        bool DoesEntityExist(int entityID);
-    protected:
+        bool MarkEntityForDelete(const int entityID);
+        bool DoesEntityExist(const int entityID);
     private:
         void PrintEntityVector() const;
-        static int m_NextID;
-        std::vector<int> m_EntityVector;
+    private:
+        typedef std::vector< std::pair < int , bool > > EntityPairVector;
+        typedef std::pair< int , bool > EntityPair;
+
+        static unsigned int m_NextID;
+
+        EntityPairVector m_EntityPairVector;
 };
 
 #endif // ENTITYMANAGER_H

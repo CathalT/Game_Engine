@@ -1,12 +1,9 @@
 #include "InputSystem.h"
-
-#include "GameWorld/ComponentManager.h"
-#include "GameWorld/EntityManager.h"
 #include "SDL.h"
 
-InputSystem::InputSystem(EntityManager& entityManager,ComponentManager& componentManager)
+InputSystem::InputSystem(EntityManager& entityManager,ComponentStore& componentStore)
 : m_EntityManager(entityManager)
-, m_ComponentManager(componentManager)
+, m_ComponentStore(componentStore)
 {
     //ctor
 }

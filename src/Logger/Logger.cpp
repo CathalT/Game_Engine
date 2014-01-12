@@ -1,4 +1,7 @@
 #include "Logger.h"
+
+//Boost logger is a dick and wont compile with mingw, should just use msvc? Stop being a twat Cathal, fukken boost faggit.
+
 /*
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>

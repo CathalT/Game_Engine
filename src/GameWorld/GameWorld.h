@@ -1,22 +1,22 @@
 #ifndef GAMEWORLD_H
 #define GAMEWORLD_H
 
-
-#include "GameWorld/ComponentManager.h"
+#include "GameWorld/ComponentStore.h"
 #include "GameWorld/EntityManager.h"
 
 class GameWorld
 {
     public:
-        GameWorld(EntityManager & entityManager,ComponentManager & componentManager);
+        GameWorld(EntityManager & entityManager,ComponentStore & componentStore);
         virtual ~GameWorld();
         void UpdateGameWorldState();
         void CreatePlayerEntity();
+        void CreateBallEntity();
 
     protected:
     private:
         EntityManager m_EnityManager;
-        ComponentManager m_ComponentManager;
+        ComponentStore m_ComponentStore;
 };
 
 #endif // GAMEWORLD_H

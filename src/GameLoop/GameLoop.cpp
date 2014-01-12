@@ -1,10 +1,10 @@
 #include "GameLoop.h"
 
-
 #include "Systems/RenderSystem.h"
 #include "Systems/InputSystem.h"
 
-#include "GameWorld/ComponentManager.h"
+#include "GameWorld/ComponentFactory.h"
+#include "GameWorld/ComponentStore.h"
 #include "GameWorld/EntityManager.h"
 #include "GameWorld/GameWorld.h"
 
@@ -14,11 +14,13 @@
 const double FPS = 60.0;
 const double ONE_THOUSAND_MILLISECS = 1000.0;
 
-GameLoop::GameLoop(EntityManager& entityManager, ComponentManager& componentManager)
+GameLoop::GameLoop(EntityManager& entityManager, ComponentStore& componentStore)
 : m_bExit(false)
-, m_InputSystem(entityManager,componentManager)
-, m_GameWorld(entityManager,componentManager)
-, m_RenderSystem(entityManager,componentManager)
+, m_InputSystem(entityManager,componentStore)
+, m_GameWorld(entityManager,componentStore)
+, m_RenderSystem(entityManager,componentStore)
+, m_EntityManager(entityManager)
+, m_ComponentStore(componentStore)
 {
     //ctor
 }
@@ -35,11 +37,16 @@ void GameLoop::RunLoop()
     double lag = 0.0;
 
     m_RenderSystem.InitMainWindowAndRenderer();
-    m_GameWorld.CreatePlayerEntity();
+    ComponentFactory compFact(m_ComponentStore,m_EntityManager);
+    compFact.CreateComponentsFromFile("C:/Devroot/Game_Engine/bin/Debug/world_entitys.txt");
+    //m_GameWorld.CreatePlayerEntity();
+    //m_GameWorld.CreateBallEntity();
+    m_RenderSystem.LoadTextureBatch(shared_ptr< std::vector<Sprite> >());
 
     //TODO: Update shitty game loop to account for lag.
     //Get the delta time, pass it into Update function.
     //Need to use RK4 integrator to determine updates for Game State?
+    //Or set render and update FPS to static 60~?
     //Interpolate? Pass into renderer?
     //Shieeeet.
     while(!m_bExit)
@@ -48,16 +55,19 @@ void GameLoop::RunLoop()
       boost::chrono::milliseconds elapsed = boost::chrono::duration_cast<boost::chrono::milliseconds> (current - previous);
       previous = current;
       lag += elapsed.count();
+      std::cout << "Lag before: " << lag << std::endl;
 
       m_bExit = m_InputSystem.ProcessAllUserInput();
-
+      int count1 = 0;
       while (lag >= MS_PER_UPDATE)
       {
+        ++count1;
         m_GameWorld.UpdateGameWorldState();
         lag -= MS_PER_UPDATE;
       }
 
-      m_RenderSystem.Render(/*lag.count() / MS_PER_UPDATE.count()*/);
-      std::cout << lag << std::endl;
+      m_RenderSystem.Render(/*lag / MS_PER_UPDATE*/);
+      std::cout << "Update Count: " << count1 <<  std::endl;
+      std::cout << "Lag after: " << lag << std::endl;
     }
 }

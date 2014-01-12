@@ -1,7 +1,7 @@
 #ifndef RENDERSYSTEM_H
 #define RENDERSYSTEM_H
 
-#include "GameWorld/ComponentManager.h"
+#include "GameWorld/ComponentStore.h"
 #include "GameWorld/EntityManager.h"
 
 #include "SDL.h"
@@ -9,10 +9,13 @@
 class RenderSystem
 {
     public:
-        RenderSystem(EntityManager& entityManager, ComponentManager& componentManager);
+        RenderSystem(EntityManager& entityManager, ComponentStore& componentStore);
         virtual ~RenderSystem();
         void Render();
         void InitMainWindowAndRenderer();
+        void LoadTextureBatch(shared_ptr < std::vector <Sprite > > vSprites);
+        void UnLoadTextureBatch(shared_ptr < std::vector <Sprite > > vSprites);
+
     protected:
     private:
 
@@ -23,7 +26,7 @@ class RenderSystem
 
     private:
     EntityManager m_EntityManager;
-    ComponentManager m_ComponentManager;
+    ComponentStore m_ComponentStore;
     SDL_Window * m_MainWindow;
     SDL_Renderer * m_MainRenderer;
 };

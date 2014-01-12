@@ -40,26 +40,27 @@
 			<Add directory="$(#boost.include)" />
 			<Add directory="C:/Devroot/Game_Engine/src" />
 			<Add directory="C:/Devroot/Game_Engine/include/SDL2" />
+			<Add directory="C:/Devroot/Game_Engine/include/json" />
 		</Compiler>
 		<Linker>
 			<Add option="-lmingw32 -lSDL2_image -lSDL2main -lSDL2" />
 			<Add library="libboost_chrono-mgw47-mt-1_54" />
 			<Add library="libboost_system-mgw47-mt-1_54" />
 			<Add library="libSDL2_image" />
+			<Add library="libjson_mingw_libmt" />
 			<Add directory="$(#boost.lib)" />
 			<Add directory="C:/Devroot/Game_Engine/lib" />
 		</Linker>
 		<Unit filename="main.cpp">
 			<Option virtualFolder="Game_Engine/" />
 		</Unit>
-		<Unit filename="src/Components/Component.cpp" />
-		<Unit filename="src/Components/Component.h" />
-		<Unit filename="src/Components/SpriteComponent.cpp" />
-		<Unit filename="src/Components/SpriteComponent.h" />
 		<Unit filename="src/GameLoop/GameLoop.cpp" />
 		<Unit filename="src/GameLoop/GameLoop.h" />
-		<Unit filename="src/GameWorld/ComponentManager.cpp" />
-		<Unit filename="src/GameWorld/ComponentManager.h" />
+		<Unit filename="src/GameWorld/ComponentFactory.cpp" />
+		<Unit filename="src/GameWorld/ComponentFactory.h" />
+		<Unit filename="src/GameWorld/ComponentStore.cpp" />
+		<Unit filename="src/GameWorld/ComponentStore.h" />
+		<Unit filename="src/GameWorld/Components.h" />
 		<Unit filename="src/GameWorld/EntityManager.cpp" />
 		<Unit filename="src/GameWorld/EntityManager.h" />
 		<Unit filename="src/GameWorld/GameWorld.cpp" />
