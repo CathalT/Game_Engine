@@ -43,12 +43,11 @@ void GameLoop::RunLoop()
     //m_GameWorld.CreateBallEntity();
     m_RenderSystem.LoadTextureBatch(shared_ptr< std::vector<Sprite> >());
 
-    //TODO: Update shitty game loop to account for lag.
+    //TODO: Update game loop to account for lag.
     //Get the delta time, pass it into Update function.
     //Need to use RK4 integrator to determine updates for Game State?
     //Or set render and update FPS to static 60~?
     //Interpolate? Pass into renderer?
-    //Shieeeet.
     while(!m_bExit)
     {
       boost::chrono::high_resolution_clock::time_point current = boost::chrono::high_resolution_clock::now();
